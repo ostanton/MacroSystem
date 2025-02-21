@@ -1,0 +1,46 @@
+﻿// Fill out your copyright notice in the Description page of Project Settings.
+
+#include "MacroParameter.h"
+
+template<>
+int FMacroParameter::As() const
+{
+	return FCString::Atoi(*Value);
+}
+
+template<>
+float FMacroParameter::As() const
+{
+	return FCString::Atof(*Value);
+}
+
+template<>
+const FString& FMacroParameter::As() const
+{
+	return Value;
+}
+
+FString MacroParamTypeToString(const EMacroParamType Type)
+{
+	switch (Type)
+	{
+	case EMacroParamType::Integer:
+		return "Integer";
+	case EMacroParamType::Float:
+		return "Float";
+	case EMacroParamType::String:
+		return "String";
+	}
+
+	return "<unknown>";
+}
+
+FText FMacroParameter::TypeAsText() const
+{
+	return FText::FromString(TypeAsString());
+}
+
+FString FMacroParameter::TypeAsString() const
+{
+	return MacroParamTypeToString(Type);
+}
