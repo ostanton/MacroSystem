@@ -18,11 +18,7 @@
 		{
 			"Name": "MacroSystem",
 			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"PlatformDenyList": [
-				"IOS",
-				"Android"
-			]
+			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [

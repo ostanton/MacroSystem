@@ -65,8 +65,7 @@ void SActionContainer::Refresh(TArray<FMacroAction>* NewSource)
 	if (ActionsSource->IsEmpty())
 	{
 		UMacroDebugStatics::PrintSimple(
-			"SActionContainer::Refresh - ActionsSource is empty!",
-			EMacroPrintSeverity::Message
+			"SActionContainer::Refresh - ActionsSource is empty!"
 		);
 		return;
 	}

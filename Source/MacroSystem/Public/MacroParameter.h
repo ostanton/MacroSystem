@@ -29,7 +29,7 @@ FString MacroParamTypeToString(EMacroParamType Type);
  * @code EMacroParamType@endcode 
  */
 USTRUCT(BlueprintType)
-struct FMacroParameter
+struct MACROSYSTEM_API FMacroParameter
 {
 	GENERATED_BODY()
 

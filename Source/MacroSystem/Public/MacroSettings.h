@@ -10,7 +10,7 @@ class UMacro;
 class UMacroGroup;
 
 USTRUCT(BlueprintType)
-struct FMacroCategory
+struct MACROSYSTEM_API FMacroCategory
 {
 	GENERATED_BODY()
 

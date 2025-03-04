@@ -14,7 +14,7 @@ class UMacro;
  * the macro does not exist in memory yet
  */
 USTRUCT(BlueprintType)
-struct FMacroAction
+struct MACROSYSTEM_API FMacroAction
 {
 	GENERATED_BODY()
 

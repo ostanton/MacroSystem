@@ -8,6 +8,7 @@ class SMacroActionContextButton;
 struct FInstancedStruct;
 class SButton;
 class SOverlay;
+class SCheckBox;
 
 class SConditionMacro final : public SCompoundWidget
 {
@@ -25,9 +26,12 @@ private:
 
 	TSharedPtr<SButton> SelectorButton;
 	TSharedPtr<SOverlay> SelectedActionContainer;
+	TSharedPtr<SCheckBox> InvertedCheckbox;
 
 	void ActionContextButtonClicked(const SMacroActionContextButton* Button);
 	void ConditionActionDeleted(const TSharedRef<SMacroAction>& Action);
+
+	void InvertCheckboxStateChanged(ECheckBoxState State);
 
 	void RefreshCondition();
 };

@@ -9,7 +9,7 @@
  * Extended FMacroAction specifically for user-created macros
  */
 USTRUCT(BlueprintType)
-struct FUserMacro : public FMacroAction
+struct MACROSYSTEM_API FUserMacro : public FMacroAction
 {
 	GENERATED_BODY()
 

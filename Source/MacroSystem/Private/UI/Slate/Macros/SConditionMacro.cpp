@@ -1,6 +1,7 @@
 ﻿#include "SConditionMacro.h"
 #include "ConditionMacro.h"
 #include "InstancedStruct.h"
+#include "FunctionLibraries/MacroDebugStatics.h"
 #include "Macros/Macro.h"
 #include "UI/Slate/MacroActionContextMenu.h"
 #include "UI/Slate/SMacroAction.h"
@@ -70,22 +71,9 @@ void SConditionMacro::Construct(const FArguments& InArgs)
 				+SHorizontalBox::Slot()
 				.AutoWidth()
 				[
-					SNew(SCheckBox)
+					SAssignNew(InvertedCheckbox, SCheckBox)
 					.ToolTipText(FText::FromString("Inverts this condition when checked"))
-					.OnCheckStateChanged_Lambda([this](const ECheckBoxState State)
-					{
-						switch (State)
-						{
-						case ECheckBoxState::Unchecked:
-							Condition->GetMutable<FConditionMacro>().bInverted = false;
-							return;
-						case ECheckBoxState::Checked:
-							Condition->GetMutable<FConditionMacro>().bInverted = true;
-							return;
-						default:
-							break;
-						}
-					})
+					.OnCheckStateChanged(this, &SConditionMacro::InvertCheckboxStateChanged)
 				]
 				+SHorizontalBox::Slot()
 				.FillWidth(1.f)
@@ -118,18 +106,44 @@ void SConditionMacro::ConditionActionDeleted(const TSharedRef<SMacroAction>& Act
 	RefreshCondition();
 }
 
+void SConditionMacro::InvertCheckboxStateChanged(const ECheckBoxState State)
+{
+	switch (State)
+	{
+	case ECheckBoxState::Unchecked:
+		Condition->GetMutable<FConditionMacro>().bInverted = false;
+		break;
+	case ECheckBoxState::Checked:
+		Condition->GetMutable<FConditionMacro>().bInverted = true;
+		break;
+	default:
+		break;
+	}
+
+	UMacroDebugStatics::PrintSimple(
+		"Condition changed to " + Condition->Get<FConditionMacro>().bInverted
+	);
+}
+
 void SConditionMacro::RefreshCondition()
 {
 	SelectedActionContainer->ClearChildren();
 
 	// if we have a valid condition macro
-	if (Condition->IsValid() && Condition->Get<FConditionMacro>().MacroClass)
+	if (Condition->IsValid())
 	{
-		SelectedActionContainer->AddSlot()
-		[
-			SNew(SMacroAction)
-			.Action(Condition->GetMutablePtr<FConditionMacro>())
-			.OnDeleted(this, &SConditionMacro::ConditionActionDeleted)
-		];
+		if (Condition->Get<FConditionMacro>().MacroClass)
+		{
+			SelectedActionContainer->AddSlot()
+			[
+				SNew(SMacroAction)
+				.Action(Condition->GetMutablePtr<FConditionMacro>())
+				.OnDeleted(this, &SConditionMacro::ConditionActionDeleted)
+			];
+		}
+
+		InvertedCheckbox->SetIsChecked(
+			Condition->Get<FConditionMacro>().bInverted ? ECheckBoxState::Checked : ECheckBoxState::Unchecked
+		);
 	}
 }

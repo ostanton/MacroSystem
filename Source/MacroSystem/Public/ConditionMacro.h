@@ -9,7 +9,7 @@
  * Macro action for conditional macros, contains extra information about it like if it's inverted
  */
 USTRUCT(BlueprintType)
-struct FConditionMacro : public FMacroAction
+struct MACROSYSTEM_API FConditionMacro : public FMacroAction
 {
 	GENERATED_BODY()
 

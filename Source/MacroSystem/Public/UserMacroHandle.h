@@ -13,7 +13,7 @@ class UMacroSubsystem;
  * and a pointer to that subsystem for self-contained use
  */
 USTRUCT(BlueprintType)
-struct FUserMacroHandle
+struct MACROSYSTEM_API FUserMacroHandle
 {
 	GENERATED_BODY()
 

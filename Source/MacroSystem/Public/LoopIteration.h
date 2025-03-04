@@ -8,7 +8,7 @@
  * Macro action for loops with a limit on iterations, among other potential things
  */
 USTRUCT(BlueprintType)
-struct FLoopIteration
+struct MACROSYSTEM_API FLoopIteration
 {
 	GENERATED_BODY()
 
