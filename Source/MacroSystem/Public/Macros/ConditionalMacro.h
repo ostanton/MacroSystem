@@ -20,9 +20,11 @@ public:
 	UConditionalMacro();
 
 protected:
+	/* Begin UMacro */
 	virtual void ExecuteCustomParameters_Implementation(const TArray<FMacroParameter>& Parameters) override;
 	virtual bool IsRunning_Implementation() const override;
-	virtual TSharedPtr<SWidget> CreateMacroWidget(FMacroAction& ActionInfo) override;
+	virtual TSharedRef<SWidget> CreateMacroWidget(FMacroAction& ActionInfo) override;
+	/* End UMacro */
 
 	void ExecuteConditionAction();
 

@@ -22,6 +22,7 @@ struct MACROSYSTEM_API FUserMacro : public FMacroAction
 		const FInstancedStruct& CustomData = {}
 	);
 
+	/** Name of this user macro */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="User Macro")
 	FText Name;
 };

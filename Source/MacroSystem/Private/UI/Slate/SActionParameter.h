@@ -4,6 +4,7 @@
 
 struct FMacroParameter;
 class SActionParameter;
+enum class ECheckBoxState : uint8;
 
 DECLARE_DELEGATE_OneParam(FOnActionParameterValueChanged, const SActionParameter*);
 
@@ -34,6 +35,7 @@ private:
 	void ParameterTextCommitted(const FText& Text, ETextCommit::Type);
 	void ParameterFloatCommitted(float Value, ETextCommit::Type);
 	void ParameterIntCommitted(int Value, ETextCommit::Type);
+	void ParameterBoolStateChanged(ECheckBoxState State);
 
 	TSharedPtr<SBorder> BackgroundBorder;
 	FSlateBrush BackgroundBrush;

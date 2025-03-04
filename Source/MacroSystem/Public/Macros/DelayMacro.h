@@ -20,7 +20,9 @@ public:
 	UDelayMacro();
 
 protected:
+	/* Begin UMacro */
 	virtual void ExecuteCustomParameters_Implementation(const TArray<FMacroParameter>& Parameters) override;
+	/* End UMacro */
 
 private:
 	FTimerHandle DelayHandle;

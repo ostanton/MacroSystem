@@ -22,6 +22,7 @@ struct MACROSYSTEM_API FConditionMacro : public FMacroAction
 		const FInstancedStruct& InCustomData = {}
 	);
 
+	/** Whether the condition is inverted */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Condition Macro")
 	bool bInverted {false};
 };

@@ -1,8 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Macros/Macro.h"
-
 #include "FunctionLibraries/MacroDebugStatics.h"
+#include "Kismet/GameplayStatics.h"
 #include "Subsystems/MacroSubsystem.h"
 
 bool UMacro::HasIcon() const
@@ -12,7 +12,6 @@ bool UMacro::HasIcon() const
 
 void UMacro::ExecuteCustomParameters_Implementation(const TArray<FMacroParameter>& Parameters)
 {
-	
 }
 
 void UMacro::ExecuteActions_Implementation()
@@ -94,6 +93,16 @@ void UMacro::FinishExecute(const bool bSuccess)
 	OnMacroFinished.Broadcast(this, bSuccess);
 }
 
+ACharacter* UMacro::GetPlayerCharacter() const
+{
+	return UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+}
+
+APlayerController* UMacro::GetPlayerController() const
+{
+	return UGameplayStatics::GetPlayerController(GetWorld(), 0);
+}
+
 TArray<FMacroParameter>* UMacro::GetParameters()
 {
 	if (!Info)
@@ -126,9 +135,9 @@ const TArray<FMacroAction>* UMacro::GetActions() const
 	return &Info->Actions;
 }
 
-TSharedPtr<SWidget> UMacro::CreateMacroWidget(FMacroAction& ActionInfo)
+TSharedRef<SWidget> UMacro::CreateMacroWidget(FMacroAction& ActionInfo)
 {
-	return nullptr;
+	return SNullWidget::NullWidget;
 }
 
 void UMacro::ActionFinished(const UMacro* Macro, const bool bSuccess)
@@ -144,6 +153,8 @@ void UMacro::ActionFinished(const UMacro* Macro, const bool bSuccess)
 
 void UMacro::Execute()
 {
+	bRunning = true;
+	
 	if (auto const Parameters = GetParameters())
 		ExecuteCustomParameters(*Parameters);
 	else
@@ -156,6 +167,12 @@ void UMacro::Execute()
 void UMacro::SetMacroInfo(FMacroAction& InInfo)
 {
 	Info = &InInfo;
+}
+
+void UMacro::GetMacroInfo(FMacroAction& ReturnValue) const
+{
+	if (auto const MacroInfo = GetMacroInfo())
+		ReturnValue = *MacroInfo;
 }
 
 UMacroSubsystem* UMacro::GetMacroSubsystem() const

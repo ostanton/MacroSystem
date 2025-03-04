@@ -3,6 +3,7 @@
 #include "MacroSettings.h"
 #include "Widgets/Input/SEditableTextBox.h"
 #include "Widgets/Input/SSpinBox.h"
+#include "Widgets/Input/SCheckBox.h"
 
 void SActionParameter::Construct(const FArguments& InArgs)
 {
@@ -28,6 +29,11 @@ void SActionParameter::Construct(const FArguments& InArgs)
 		ValueWidget = SNew(SSpinBox<int>)
 			.Value(Parameter->As<int>())
 			.OnValueCommitted(this, &SActionParameter::ParameterIntCommitted);
+		break;
+	case EMacroParamType::Boolean:
+		ValueWidget = SNew(SCheckBox)
+			.IsChecked(Parameter->As<bool>() ? ECheckBoxState::Checked : ECheckBoxState::Unchecked)
+			.OnCheckStateChanged(this, &SActionParameter::ParameterBoolStateChanged);
 		break;
 	}
 	
@@ -87,6 +93,11 @@ void SActionParameter::ParameterFloatCommitted(const float Value, const ETextCom
 void SActionParameter::ParameterIntCommitted(const int Value, const ETextCommit::Type)
 {
 	ParameterValueChanged(FString::FromInt(Value));
+}
+
+void SActionParameter::ParameterBoolStateChanged(const ECheckBoxState State)
+{
+	ParameterValueChanged(State == ECheckBoxState::Checked ? "True" : "False");
 }
 
 void SActionParameter::OnMouseEnter(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)

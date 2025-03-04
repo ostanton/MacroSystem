@@ -3,6 +3,12 @@
 #include "MacroParameter.h"
 
 template<>
+bool FMacroParameter::As() const
+{
+	return FCString::ToBool(*Value);
+}
+
+template<>
 int FMacroParameter::As() const
 {
 	return FCString::Atoi(*Value);
@@ -24,6 +30,8 @@ FString MacroParamTypeToString(const EMacroParamType Type)
 {
 	switch (Type)
 	{
+	case EMacroParamType::Boolean:
+		return "Boolean";
 	case EMacroParamType::Integer:
 		return "Integer";
 	case EMacroParamType::Float:

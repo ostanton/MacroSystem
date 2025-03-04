@@ -44,8 +44,7 @@ void SMacroAction::Construct(const FArguments& InArgs)
 	const TSharedRef<SWidget> ActionContainerWidget =
 		ActionContainer ? ActionContainer.ToSharedRef() : SNullWidget::NullWidget;
 
-	const auto MacroWidgetPtr = MacroAction->GetDefaultMacro()->CreateMacroWidget(*MacroAction);
-	const TSharedRef<SWidget> MacroWidget = MacroWidgetPtr ? MacroWidgetPtr.ToSharedRef() : SNullWidget::NullWidget;
+	const auto MacroWidget = MacroAction->GetDefaultMacro()->CreateMacroWidget(*MacroAction);
 
 	ChildSlot
 	[
@@ -89,7 +88,7 @@ void SMacroAction::Construct(const FArguments& InArgs)
 						]
 					]
 					+SHorizontalBox::Slot()
-					.FillWidth(MacroWidgetPtr ? 1.f : 0.f)
+					.FillWidth(MacroWidget != SNullWidget::NullWidget ? 1.f : 0.f)
 					.VAlign(VAlign_Center)
 					[
 						MacroWidget

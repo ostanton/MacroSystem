@@ -30,14 +30,28 @@ struct MACROSYSTEM_API FMacroAction
 	FMacroAction& operator=(const FMacroAction&);
 	FMacroAction& operator=(FMacroAction&&) noexcept = default;
 
+	/**
+	 * Gets the default object of the specified MacroClass member
+	 * @return Default macro object
+	 */
 	[[nodiscard]] UMacro* GetDefaultMacro() const;
 
+	/** The macro class to create for execution */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Macro Action")
 	TSubclassOf<UMacro> MacroClass;
 
+	/**
+	 * The parameters to use for macro execution
+	 * (unless manually specified in @code UMacro::ExecuteCustomParameters@endcode
+	 */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Macro Action")
 	TArray<FMacroParameter> Parameters;
 
+	/**
+	 * This is not a UPROPERTY as Blueprints does not support struct recursion.
+	 * So there are static functions in a Blueprint Function Library for that instead:
+	 * @code UMacroActionStatics@endcode
+	 */
 	TArray<FMacroAction> Actions;
 
 	/**

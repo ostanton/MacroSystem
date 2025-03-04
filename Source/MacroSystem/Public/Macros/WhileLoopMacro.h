@@ -18,5 +18,7 @@ public:
 	UWhileLoopMacro();
 
 protected:
+	/* Begin UMacro */
 	virtual void MacroFinished_Implementation() override;
+	/* End UMacro */
 };

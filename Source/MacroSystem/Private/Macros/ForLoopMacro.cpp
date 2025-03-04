@@ -45,18 +45,18 @@ void UForLoopMacro::MacroFinished_Implementation()
 	ExecuteActions();
 }
 
+TSharedRef<SWidget> UForLoopMacro::CreateMacroWidget(FMacroAction& ActionInfo)
+{
+	return SNew(SLoopIterationMacro)
+		.IterationData(&ActionInfo.CustomData);
+}
+
 bool UForLoopMacro::CanIterate() const
 {
 	if (auto const MaxIterations = GetMaxIterations())
 		return CurrentIteration <= *MaxIterations;
 
 	return false;
-}
-
-TSharedPtr<SWidget> UForLoopMacro::CreateMacroWidget(FMacroAction& ActionInfo)
-{
-	return SNew(SLoopIterationMacro)
-		.IterationData(&ActionInfo.CustomData);
 }
 
 FLoopIteration* UForLoopMacro::GetLoopIterationAction()

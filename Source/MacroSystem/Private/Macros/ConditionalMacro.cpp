@@ -29,7 +29,7 @@ bool UConditionalMacro::IsRunning_Implementation() const
 	return Super::IsRunning_Implementation() || ActiveCondition != nullptr;
 }
 
-TSharedPtr<SWidget> UConditionalMacro::CreateMacroWidget(FMacroAction& ActionInfo)
+TSharedRef<SWidget> UConditionalMacro::CreateMacroWidget(FMacroAction& ActionInfo)
 {
 	return SNew(SConditionMacro)
 		.Condition(&ActionInfo.CustomData);

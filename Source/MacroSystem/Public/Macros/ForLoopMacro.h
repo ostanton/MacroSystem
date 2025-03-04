@@ -20,11 +20,13 @@ public:
 	UForLoopMacro();
 
 protected:
+	/* Begin UMacro */
 	virtual void ExecuteCustomParameters_Implementation(const TArray<FMacroParameter>& Parameters) override;
 	virtual void MacroFinished_Implementation() override;
-	bool CanIterate() const;
-	virtual TSharedPtr<SWidget> CreateMacroWidget(FMacroAction& ActionInfo) override;
+	virtual TSharedRef<SWidget> CreateMacroWidget(FMacroAction& ActionInfo) override;
+	/* End UMacro */
 
+	[[nodiscard]] bool CanIterate() const;
 	[[nodiscard]] FLoopIteration* GetLoopIterationAction();
 	[[nodiscard]] const FLoopIteration* GetLoopIterationAction() const;
 	[[nodiscard]] int* GetMaxIterations();

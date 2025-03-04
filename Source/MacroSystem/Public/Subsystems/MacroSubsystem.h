@@ -21,6 +21,12 @@ class MACROSYSTEM_API UMacroSubsystem final : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
+	/**
+	 * Creates a user macro and adds it to the subsystem
+	 * @param Name User macro name
+	 * @param Actions Actions contained in the user macro
+	 * @return Handle to created user macro
+	 */
 	UFUNCTION(BlueprintCallable, Category="Macro Subsystem")
 	FUserMacroHandle AddUserMacro(FText Name, const TArray<FMacroAction>& Actions);
 
