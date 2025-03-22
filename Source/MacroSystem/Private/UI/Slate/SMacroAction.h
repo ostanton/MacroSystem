@@ -22,8 +22,10 @@ class SMacroAction final : public SCompoundWidget
 public:
 	SLATE_BEGIN_ARGS(SMacroAction)
 		: _Action(nullptr)
+		, _AllowReorder(true)
 	{}
 		SLATE_ARGUMENT(FMacroAction*, Action)
+		SLATE_ARGUMENT(bool, AllowReorder)
 		SLATE_EVENT(FOnMacroActionDeleted, OnDeleted)
 		SLATE_EVENT(FOnMacroMovedUp, OnMovedUp)
 		SLATE_EVENT(FOnMacroMovedDown, OnMovedDown)

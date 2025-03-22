@@ -48,6 +48,30 @@ void SMacroAction::Construct(const FArguments& InArgs)
 
 	const auto MacroWidget = MacroAction->GetDefaultMacro()->CreateMacroWidget(*MacroAction);
 
+	const TSharedRef<SWidget> ReorderWidget = InArgs._AllowReorder ?
+		SNew(SVerticalBox)
+		+SVerticalBox::Slot()
+		.AutoHeight()
+		.HAlign(HAlign_Center)
+		[
+			SNew(SButton)
+			.Text(FText::FromString("^"))
+			.ToolTipText(FText::FromString("Move this action up one"))
+			.OnClicked(this, &SMacroAction::MoveUpClicked)
+		]
+		+SVerticalBox::Slot()
+		.AutoHeight()
+		.HAlign(HAlign_Center)
+		[
+			SNew(SButton)
+			.Text(FText::FromString("^"))
+			.ToolTipText(FText::FromString("Move this action down one"))
+			.RenderTransformPivot(FVector2D {0.5, 0.5})
+			.RenderTransform(FSlateRenderTransform {TQuat2 {FMath::DegreesToRadians(180.f)}})
+			.OnClicked(this, &SMacroAction::MoveDownClicked)
+		] :
+		SNullWidget::NullWidget;
+
 	ChildSlot
 	[
 		SAssignNew(RootBorder, SBorder)
@@ -113,25 +137,7 @@ void SMacroAction::Construct(const FArguments& InArgs)
 			.AutoWidth()
 			.VAlign(VAlign_Center)
 			[
-				SNew(SVerticalBox)
-				+SVerticalBox::Slot()
-				.AutoHeight()
-				.HAlign(HAlign_Center)
-				[
-					SNew(SButton)
-					.Text(FText::FromString("^"))
-					.ToolTipText(FText::FromString("Move this action up one"))
-					.OnClicked(this, &SMacroAction::MoveUpClicked)
-				]
-				+SVerticalBox::Slot()
-				.AutoHeight()
-				.HAlign(HAlign_Center)
-				[
-					SNew(SButton)
-					.Text(FText::FromString("^"))
-					.ToolTipText(FText::FromString("Move this action down one"))
-					.OnClicked(this, &SMacroAction::MoveDownClicked)
-				]
+				ReorderWidget
 			]
 			+SHorizontalBox::Slot()
 			.AutoWidth()

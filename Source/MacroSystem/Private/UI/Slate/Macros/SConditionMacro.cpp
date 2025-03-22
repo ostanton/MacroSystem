@@ -139,6 +139,7 @@ void SConditionMacro::RefreshCondition()
 				SNew(SMacroAction)
 				.Action(Condition->GetMutablePtr<FConditionMacro>())
 				.OnDeleted(this, &SConditionMacro::ConditionActionDeleted)
+				.AllowReorder(false)
 			];
 		}
 
