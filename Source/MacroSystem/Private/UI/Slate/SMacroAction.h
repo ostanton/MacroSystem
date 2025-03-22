@@ -11,11 +11,11 @@ class SVerticalBox;
 class SButton;
 
 DECLARE_DELEGATE_OneParam(FOnMacroActionDeleted, const TSharedRef<SMacroAction>&);
+DECLARE_DELEGATE_OneParam(FOnMacroMovedUp, const TSharedRef<SMacroAction>&);
+DECLARE_DELEGATE_OneParam(FOnMacroMovedDown, const TSharedRef<SMacroAction>&);
 
 /**
  * Action widget which represents a built-in macro, and allows the user to change its parameters
- * 
- * TODO - allowing reordering of actions
  */
 class SMacroAction final : public SCompoundWidget
 {
@@ -25,6 +25,8 @@ public:
 	{}
 		SLATE_ARGUMENT(FMacroAction*, Action)
 		SLATE_EVENT(FOnMacroActionDeleted, OnDeleted)
+		SLATE_EVENT(FOnMacroMovedUp, OnMovedUp)
+		SLATE_EVENT(FOnMacroMovedDown, OnMovedDown)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -32,6 +34,8 @@ public:
 	[[nodiscard]] FMacroAction* GetAction() const {return MacroAction;}
 
 	FOnMacroActionDeleted OnMacroActionDeleted;
+	FOnMacroMovedUp OnMacroMovedUp;
+	FOnMacroMovedDown OnMacroMovedDown;
 
 private:
 	FMacroAction* MacroAction {nullptr};
@@ -51,6 +55,9 @@ private:
 	virtual FReply OnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
 
 	void ShowContextMenu(const FVector2D& Position);
+
+	FReply MoveUpClicked();
+	FReply MoveDownClicked();
 
 	FSlateBrush BackgroundBrush;
 	FSlateBrush IconBrush;

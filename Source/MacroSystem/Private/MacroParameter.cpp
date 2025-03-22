@@ -43,6 +43,18 @@ FString MacroParamTypeToString(const EMacroParamType Type)
 	return "<unknown>";
 }
 
+bool FMacroParameter::operator==(const FMacroParameter& Other) const
+{
+	return FriendlyName.IdenticalTo(Other.FriendlyName)
+		&& Type == Other.Type
+		&& Value == Other.Value;
+}
+
+bool FMacroParameter::operator!=(const FMacroParameter& Other) const
+{
+	return !(*this == Other);
+}
+
 FText FMacroParameter::TypeAsText() const
 {
 	return FText::FromString(TypeAsString());

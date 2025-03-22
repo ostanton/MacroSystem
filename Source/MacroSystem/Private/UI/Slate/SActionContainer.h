@@ -35,6 +35,8 @@ private:
 	void CreateActionWidget(FMacroAction& Action);
 	void ActionButtonClicked(const SMacroActionContextButton* Button);
 	void ActionDeleted(const TSharedRef<SMacroAction>& Action);
+	void ActionMovedUp(const TSharedRef<SMacroAction>& Action);
+	void ActionMovedDown(const TSharedRef<SMacroAction>& Action);
 
 	virtual FReply OnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent) override;
 	

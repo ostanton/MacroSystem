@@ -10,6 +10,8 @@
 void SMacroAction::Construct(const FArguments& InArgs)
 {
 	OnMacroActionDeleted = InArgs._OnDeleted;
+	OnMacroMovedUp = InArgs._OnMovedUp;
+	OnMacroMovedDown = InArgs._OnMovedDown;
 	MacroAction = InArgs._Action;
 	checkf(MacroAction, TEXT("SMacroAction::Construct - MacroAction is invalid!"));
 
@@ -111,8 +113,33 @@ void SMacroAction::Construct(const FArguments& InArgs)
 			.AutoWidth()
 			.VAlign(VAlign_Center)
 			[
+				SNew(SVerticalBox)
+				+SVerticalBox::Slot()
+				.AutoHeight()
+				.HAlign(HAlign_Center)
+				[
+					SNew(SButton)
+					.Text(FText::FromString("^"))
+					.ToolTipText(FText::FromString("Move this action up one"))
+					.OnClicked(this, &SMacroAction::MoveUpClicked)
+				]
+				+SVerticalBox::Slot()
+				.AutoHeight()
+				.HAlign(HAlign_Center)
+				[
+					SNew(SButton)
+					.Text(FText::FromString("^"))
+					.ToolTipText(FText::FromString("Move this action down one"))
+					.OnClicked(this, &SMacroAction::MoveDownClicked)
+				]
+			]
+			+SHorizontalBox::Slot()
+			.AutoWidth()
+			.VAlign(VAlign_Center)
+			[
 				SAssignNew(ExtrasButton, SButton)
 				.Text(FText::FromString("..."))
+				.ToolTipText(FText::FromString("Edit this action"))
 				.OnClicked_Lambda([this]
 				{
 					ShowContextMenu(
@@ -206,4 +233,16 @@ void SMacroAction::ShowContextMenu(const FVector2D& Position)
 		Position,
 		FPopupTransitionEffect::ContextMenu
 	);
+}
+
+FReply SMacroAction::MoveUpClicked()
+{
+	OnMacroMovedUp.Execute(SharedThis(this));
+	return FReply::Handled();
+}
+
+FReply SMacroAction::MoveDownClicked()
+{
+	OnMacroMovedDown.Execute(SharedThis(this));
+	return FReply::Handled();
 }

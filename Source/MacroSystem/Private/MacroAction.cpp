@@ -37,6 +37,19 @@ FMacroAction& FMacroAction::operator=(const FMacroAction&)
 	return *this;
 }
 
+bool FMacroAction::operator==(const FMacroAction& InOther) const
+{
+	return MacroClass == InOther.MacroClass
+		&& Parameters == InOther.Parameters
+		&& Actions == InOther.Actions
+		&& CustomData == InOther.CustomData;
+}
+
+bool FMacroAction::operator!=(const FMacroAction& InOther) const
+{
+	return !(*this == InOther);
+}
+
 UMacro* FMacroAction::GetDefaultMacro() const
 {
 	return Cast<UMacro>(MacroClass->ClassDefaultObject);

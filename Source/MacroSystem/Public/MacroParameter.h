@@ -38,6 +38,9 @@ struct MACROSYSTEM_API FMacroParameter
 {
 	GENERATED_BODY()
 
+	[[nodiscard]] bool operator==(const FMacroParameter& Other) const;
+	[[nodiscard]] bool operator!=(const FMacroParameter& Other) const;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Macro Parameter")
 	FText FriendlyName;
 

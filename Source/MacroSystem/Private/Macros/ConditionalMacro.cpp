@@ -19,7 +19,10 @@ void UConditionalMacro::ExecuteCustomParameters_Implementation(const TArray<FMac
 
 	// don't execute the condition if it doesn't exist!
 	if (!GetConditionAction() || !GetConditionAction()->MacroClass)
+	{
+		FinishExecute();
 		return;
+	}
 	
 	ExecuteConditionAction();
 }

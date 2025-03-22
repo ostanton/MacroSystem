@@ -109,6 +109,8 @@ void SActionContainer::CreateActionWidget(FMacroAction& Action)
 		SNew(SMacroAction)
 		.Action(&Action)
 		.OnDeleted(this, &SActionContainer::ActionDeleted)
+		.OnMovedUp(this, &SActionContainer::ActionMovedUp)
+		.OnMovedDown(this, &SActionContainer::ActionMovedDown)
 	];
 }
 
@@ -153,6 +155,50 @@ void SActionContainer::ActionDeleted(const TSharedRef<SMacroAction>& Action)
 
 	// mimic the original array remove in the UI
 	ActionVerticalBox->RemoveSlot(Action);
+}
+
+void SActionContainer::ActionMovedUp(const TSharedRef<SMacroAction>& Action)
+{
+	if (!ActionsSource)
+		return;
+
+	if (!Action->GetAction())
+		return;
+
+	const auto ActionIndex = ActionsSource->Find(*Action->GetAction());
+	if (ActionIndex == 0)
+	{
+		UMacroDebugStatics::PrintSimple(
+			"SActionContainer::ActionMovedUp - Cannot move first action up!",
+			EMacroPrintSeverity::Warning
+		);
+		return;
+	}
+	
+	ActionsSource->Swap(ActionIndex, ActionIndex - 1);
+	Refresh(ActionsSource);
+}
+
+void SActionContainer::ActionMovedDown(const TSharedRef<SMacroAction>& Action)
+{
+	if (!ActionsSource)
+		return;
+
+	if (!Action->GetAction())
+		return;
+
+	const auto ActionIndex = ActionsSource->Find(*Action->GetAction());
+	if (ActionIndex == ActionsSource->Num() - 1)
+	{
+		UMacroDebugStatics::PrintSimple(
+			"SActionContainer::ActionMovedDown - Cannot move last action down!",
+			EMacroPrintSeverity::Warning
+		);
+		return;
+	}
+
+	ActionsSource->Swap(ActionIndex, ActionIndex + 1);
+	Refresh(ActionsSource);
 }
 
 FReply SActionContainer::OnMouseButtonDown(const FGeometry& MyGeometry, const FPointerEvent& MouseEvent)

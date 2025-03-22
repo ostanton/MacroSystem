@@ -30,6 +30,9 @@ struct MACROSYSTEM_API FMacroAction
 	FMacroAction& operator=(const FMacroAction&);
 	FMacroAction& operator=(FMacroAction&&) noexcept = default;
 
+	[[nodiscard]] bool operator==(const FMacroAction& InOther) const;
+	[[nodiscard]] bool operator!=(const FMacroAction& InOther) const;
+
 	/**
 	 * Gets the default object of the specified MacroClass member
 	 * @return Default macro object
