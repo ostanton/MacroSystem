@@ -49,7 +49,9 @@ void UMacroSubsystem::ExecuteUserMacro(const int Index)
 	auto& MacroInfo = UserMacros[Index];
 	UMacroDebugStatics::PrintSimple("Executing user macro: " + MacroInfo.Name.ToString());
 	auto const Macro = NewObject<UMacro>(this, MacroInfo.MacroClass);
-	Macro->OnMacroFinished.AddDynamic(this, &UMacroSubsystem::UserMacroFinished);
+	Macro->OnMacroFinished.AddUniqueDynamic(this, &UMacroSubsystem::UserMacroFinished);
+	Macro->bAllowsActions = true;
+	Macro->bAutoExecuteActions = true;
 	Macro->SetMacroInfo(MacroInfo);
 	Macro->Execute();
 	ActiveUserMacros.Add(Macro);
@@ -167,6 +169,7 @@ void UMacroSubsystem::CreateMacroEditorWindow(
 
 void UMacroSubsystem::UserMacroFinished(const UMacro* Macro, bool bSuccess)
 {
+	NativeOnUserMacroFinished.Broadcast();
 	ActiveUserMacros.Remove(Macro);
 	UMacroDebugStatics::PrintSimple(
 		"Finished executing user macro: " + static_cast<const FUserMacro*>(Macro->GetMacroInfo())->Name.ToString()

@@ -9,7 +9,6 @@
 void SMacroEditor::Construct(const FArguments& InArgs)
 {
 	MacroSubsystem = InArgs._MacroSubsystem;
-	checkf(MacroSubsystem, TEXT("SMacroEditor::Construct - MacroSubsystem is invalid!"));
 
 	ChildSlot
 	[
@@ -107,7 +106,11 @@ void SMacroEditor::Construct(const FArguments& InArgs)
 		]
 	];
 
-	SelectedUserMacro = MacroSubsystem->GetUserMacros().IsEmpty() ? -1 : 0;
+	if (MacroSubsystem)
+		SelectedUserMacro = MacroSubsystem->GetUserMacros().IsEmpty() ? -1 : 0;
+	else
+		SelectedUserMacro = -1;
+	
 	RefreshCreatedMacros(SelectedUserMacro);
 	RefreshActiveMacroArea();
 }
@@ -119,6 +122,9 @@ void SMacroEditor::SetMacroSubsystem(UMacroSubsystem* Subsystem)
 
 void SMacroEditor::RefreshCreatedMacros(const int SelectedItem)
 {
+	if (!MacroSubsystem)
+		return;
+	
 	ActiveMacroSwitcher->SetActiveWidgetIndex(!MacroSubsystem->GetUserMacros().IsEmpty());
 	
 	UserMacroArray.Empty();
@@ -148,6 +154,14 @@ void SMacroEditor::SelectUserMacro(const FUserMacroHandle& Handle)
 	RefreshActiveMacroArea();
 }
 
+void SMacroEditor::UserMacroFinished()
+{
+	if (MacroSubsystem)
+		MacroSubsystem->NativeOnUserMacroFinished.Remove(UserMacroFinishedDelegate);
+	
+	SetEnabled(true);
+}
+
 FReply SMacroEditor::NewMacroClicked()
 {
 	SRenameMacro::PushMenu(
@@ -164,6 +178,9 @@ FReply SMacroEditor::NewMacroClicked()
 
 void SMacroEditor::NewMacroNameCommitted(const FText& Text)
 {
+	if (!MacroSubsystem)
+		return;
+	
 	SelectedUserMacro = MacroSubsystem->AddUserMacro(Text, {}).GetIndex();
 	RefreshCreatedMacros();
 	RefreshActiveMacroArea();
@@ -171,6 +188,9 @@ void SMacroEditor::NewMacroNameCommitted(const FText& Text)
 
 void SMacroEditor::RefreshActiveMacroArea()
 {
+	if (!MacroSubsystem)
+		return;
+	
 	if (auto const Macro = MacroSubsystem->GetUserMacro(SelectedUserMacro))
 	{
 		ActiveMacroTextBlock->SetText(Macro->Name);
@@ -197,6 +217,7 @@ TSharedRef<ITableRow> SMacroEditor::GenerateUserMacroItem(
 				RefreshActiveMacroArea();
 			})
 			.OnDeleted(this, &SMacroEditor::UserMacroDeleted)
+			.OnExecuted(this, &SMacroEditor::UserMacroExecuted)
 		];
 }
 
@@ -208,6 +229,9 @@ void SMacroEditor::UserMacroSelected(const FUserMacroItem Handle, const ESelectI
 
 void SMacroEditor::UserMacroDeleted(const int Index)
 {
+	if (!MacroSubsystem)
+		return;
+	
 	// if the just deleted macro was the selected one
 	if (SelectedUserMacro == Index)
 	{
@@ -222,8 +246,20 @@ void SMacroEditor::UserMacroDeleted(const int Index)
 	RefreshActiveMacroArea();
 }
 
+void SMacroEditor::UserMacroExecuted()
+{
+	if (MacroSubsystem)
+		UserMacroFinishedDelegate =
+			MacroSubsystem->NativeOnUserMacroFinished.AddRaw(this, &SMacroEditor::UserMacroFinished);
+	
+	SetEnabled(false);
+}
+
 TArray<FMacroAction>* SMacroEditor::GetSelectedMacroActions() const
 {
+	if (!MacroSubsystem)
+		return nullptr;
+	
 	if (MacroSubsystem->GetUserMacros().IsEmpty())
 		return nullptr;
 

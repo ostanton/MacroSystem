@@ -11,6 +11,7 @@ void SUserMacroButton::Construct(const FArguments& InArgs)
 
 	OnUserMacroRenamed = InArgs._OnRenamed;
 	OnUserMacroDeleted = InArgs._OnDeleted;
+	OnUserMacroExecuted = InArgs._OnExecuted;
 	
 	auto const UserMacro = UserMacroHandle->GetMacroInfo();
 	checkf(UserMacro, TEXT("SUserMacroButton::Construct - UserMacro pointer is invalid!"));
@@ -126,6 +127,7 @@ void SUserMacroButton::CreateContextMenu(const FVector2D& Position)
 		{},
 		FExecuteAction::CreateLambda([this]
 		{
+			[[maybe_unused]] auto Temp = OnUserMacroExecuted.ExecuteIfBound();
 			UserMacroHandle->Execute();
 		})
 	);

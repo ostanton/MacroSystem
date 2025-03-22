@@ -11,6 +11,8 @@
 
 class SWindow;
 
+DECLARE_MULTICAST_DELEGATE(FNativeOnUserMacroFinished);
+
 /**
  * Subsystem to manage created macros and run them. Indices index into the array of FMacroAction
  * unless specified otherwise
@@ -78,6 +80,8 @@ public:
 		const FVector2D& Size = {1280, 720},
 		bool bResizable = true
 	);
+
+	FNativeOnUserMacroFinished NativeOnUserMacroFinished;
 
 private:
 	UFUNCTION()

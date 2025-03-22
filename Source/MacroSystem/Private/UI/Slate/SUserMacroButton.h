@@ -7,6 +7,7 @@ class SEditableTextBox;
 
 DECLARE_DELEGATE_OneParam(FOnUserMacroRenamed, const TSharedRef<FUserMacroHandle>&);
 DECLARE_DELEGATE_OneParam(FOnUserMacroDeleted, int);
+DECLARE_DELEGATE(FOnUserMacroExecuted);
 
 /**
  * Represents a single user macro object from the UMacroSubsystem
@@ -21,6 +22,7 @@ public:
 		SLATE_EVENT(FOnUserMacroRenamed, OnRenamed)
 		/** Used to notify that a macro has been deleted. It has already been removed from UMacroSubsystem at this point */
 		SLATE_EVENT(FOnUserMacroDeleted, OnDeleted)
+		SLATE_EVENT(FOnUserMacroExecuted, OnExecuted)
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);
@@ -36,6 +38,7 @@ private:
 	TSharedPtr<FUserMacroHandle> UserMacroHandle;
 	FOnUserMacroRenamed OnUserMacroRenamed;
 	FOnUserMacroDeleted OnUserMacroDeleted;
+	FOnUserMacroExecuted OnUserMacroExecuted;
 
 	TSharedPtr<SButton> ExtrasButton;
 

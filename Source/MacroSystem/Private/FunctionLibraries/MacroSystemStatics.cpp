@@ -5,18 +5,12 @@
 #include "UI/MacroEditor.h"
 #include "Engine/World.h"
 
-UMacroEditor* UMacroSystemStatics::CreateMacroEditorWidget(const UObject* WorldContext, UObject* Outer)
+UMacroEditor* UMacroSystemStatics::CreateMacroEditorWidget(UObject* Outer)
 {
-	auto const World = WorldContext->GetWorld();
-	if (!World)
-		return nullptr;
-	
-	auto const MacroSubsystem = World->GetGameInstance()->GetSubsystem<UMacroSubsystem>();
-	if (!MacroSubsystem)
+	if (!Outer->GetWorld())
 		return nullptr;
 
 	auto const MacroEditor = NewObject<UMacroEditor>(Outer);
-	MacroEditor->SetMacroSubsystem(MacroSubsystem);
 
 	return MacroEditor;
 }

@@ -73,6 +73,9 @@ void UMacro::ExecuteAction(FMacroAction& Action)
 
 bool UMacro::ExecuteActionByIndex(const int Index)
 {
+	if (!bAllowsActions)
+		return false;
+	
 	if (auto const Actions = GetActions();
 		!Actions || !Actions->IsValidIndex(Index))
 		return false;
@@ -160,7 +163,7 @@ void UMacro::Execute()
 	else
 		ExecuteCustomParameters({});
 
-	if (bAutoExecuteActions)
+	if (bAllowsActions && bAutoExecuteActions)
 		ExecuteActions();
 }
 

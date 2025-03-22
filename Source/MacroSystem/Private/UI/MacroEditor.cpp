@@ -3,15 +3,9 @@
 #include "UI/MacroEditor.h"
 #include "Slate/SMacroEditor.h"
 
-void UMacroEditor::SetMacroSubsystem(UMacroSubsystem* InMacroSubsystem)
-{
-	MacroSubsystem = InMacroSubsystem;
-}
-
 TSharedRef<SWidget> UMacroEditor::RebuildWidget()
 {
-	return SAssignNew(MyMacroEditor, SMacroEditor)
-		.MacroSubsystem(MacroSubsystem);
+	return SAssignNew(MyMacroEditor, SMacroEditor);
 }
 
 void UMacroEditor::ReleaseSlateResources(const bool bReleaseChildren)
@@ -19,4 +13,14 @@ void UMacroEditor::ReleaseSlateResources(const bool bReleaseChildren)
 	Super::ReleaseSlateResources(bReleaseChildren);
 
 	MyMacroEditor.Reset();
+}
+
+void UMacroEditor::OnWidgetRebuilt()
+{
+	Super::OnWidgetRebuilt();
+
+	if (!IsDesignTime())
+	{
+		MyMacroEditor->SetMacroSubsystem(GetGameInstance()->GetSubsystem<UMacroSubsystem>());
+	}
 }

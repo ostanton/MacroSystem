@@ -18,7 +18,7 @@ class MACROSYSTEM_API UMacroSystemStatics : public UBlueprintFunctionLibrary
 
 public:
 	UFUNCTION(BlueprintCallable, Category="Macro System Statics", meta=(WorldContext="WorldContext"))
-	static UMacroEditor* CreateMacroEditorWidget(const UObject* WorldContext, UObject* Outer);
+	static UMacroEditor* CreateMacroEditorWidget(UObject* Outer);
 
 	UFUNCTION(BlueprintCallable, Category="Macro System Statics", meta=(WorldContext="WorldContext"))
 	static void CreateMacroEditorWindow(

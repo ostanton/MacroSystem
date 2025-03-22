@@ -28,12 +28,14 @@ void UDelayMacro::ExecuteCustomParameters_Implementation(const TArray<FMacroPara
 	
 	GetWorld()->GetTimerManager().SetTimer(
 		DelayHandle,
-		FTimerDelegate::CreateLambda([this]
-		{
-			UMacroDebugStatics::PrintSimple("Delay finished");
-			FinishExecute();
-		}),
+		FTimerDelegate::CreateUObject(this, &UDelayMacro::DelayFinished),
 		Duration,
 		false
 	);
+}
+
+void UDelayMacro::DelayFinished()
+{
+	UMacroDebugStatics::PrintSimple("Delay finished");
+	FinishExecute();
 }

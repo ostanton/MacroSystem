@@ -25,5 +25,7 @@ protected:
 	/* End UMacro */
 
 private:
+	void DelayFinished();
+	
 	FTimerHandle DelayHandle;
 };

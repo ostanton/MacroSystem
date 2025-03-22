@@ -18,13 +18,9 @@ class MACROSYSTEM_API UMacroEditor final : public UWidget
 {
 	GENERATED_BODY()
 
-public:
-	void SetMacroSubsystem(UMacroSubsystem* InMacroSubsystem);
-
-private:
 	virtual TSharedRef<SWidget> RebuildWidget() override;
 	virtual void ReleaseSlateResources(bool bReleaseChildren) override;
+	virtual void OnWidgetRebuilt() override;
 
-	TObjectPtr<UMacroSubsystem> MacroSubsystem;
 	TSharedPtr<SMacroEditor> MyMacroEditor;
 };

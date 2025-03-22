@@ -48,7 +48,7 @@ void SConditionMacro::Construct(const FArguments& InArgs)
 				.VAlign(VAlign_Center)
 				[
 					SAssignNew(SelectorButton, SButton)
-					.Text(FText::FromString("..."))
+					.Text(FText::FromString("Edit"))
 					.ToolTipText(FText::FromString("Selects a macro to use for this condition"))
 					.OnClicked_Lambda([this]
 					{

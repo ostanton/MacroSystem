@@ -36,6 +36,8 @@ public:
 private:
 	void RefreshCreatedMacros(int SelectedItem = -1);
 	void SelectUserMacro(const FUserMacroHandle& Handle);
+	void UserMacroFinished();
+	FDelegateHandle UserMacroFinishedDelegate;
 
 	FReply NewMacroClicked();
 	void NewMacroNameCommitted(const FText& Text);
@@ -47,6 +49,7 @@ private:
 	TSharedRef<ITableRow> GenerateUserMacroItem(FUserMacroItem UserMacro, const TSharedRef<STableViewBase>& OwnerTable);
 	void UserMacroSelected(FUserMacroItem Handle, ESelectInfo::Type);
 	void UserMacroDeleted(int Index);
+	void UserMacroExecuted();
 	
 	UMacroSubsystem* MacroSubsystem {nullptr};
 
