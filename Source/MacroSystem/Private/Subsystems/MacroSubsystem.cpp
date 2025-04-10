@@ -150,6 +150,16 @@ TArray<FUserMacroHandle> UMacroSubsystem::GetUserMacros_BP()
 	return Result;
 }
 
+void UMacroSubsystem::LoadFromSaveData(const FMacroSaveData& SaveData)
+{
+	UserMacros = SaveData.UserMacros;
+}
+
+void UMacroSubsystem::SaveToSaveData(FMacroSaveData& SaveData) const
+{
+	SaveData.UserMacros = UserMacros;
+}
+
 void UMacroSubsystem::CreateMacroEditorWindow(
 	const FText& Title,
 	const FVector2D& Size,

@@ -6,6 +6,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "UserMacro.h"
 #include "UserMacroHandle.h"
+#include "Save/MacroSaveData.h"
 #include "Templates/SharedPointer.h"
 #include "MacroSubsystem.generated.h"
 
@@ -78,6 +79,12 @@ public:
 	 */
 	UFUNCTION(BlueprintPure, DisplayName="Get User Macros", Category="Macro Subsystem")
 	TArray<FUserMacroHandle> GetUserMacros_BP();
+
+	UFUNCTION(BlueprintCallable, Category="Macro Subsystem")
+	void LoadFromSaveData(const FMacroSaveData& SaveData);
+
+	UFUNCTION(BlueprintPure, Category="Macro Subsystem")
+	void SaveToSaveData(FMacroSaveData& SaveData) const;
 
 	/**
 	 * Creates the macro editor window via Slate
