@@ -18,6 +18,7 @@ struct MACROSYSTEM_API FUserMacroHandle
 	GENERATED_BODY()
 
 	// default constructor for reflection stuff
+	[[deprecated("Handles should be constructed with an index and macro subsystem pointer")]]
 	FUserMacroHandle() = default;
 	FUserMacroHandle(int InIndex, UMacroSubsystem* InMacroSubsystem);
 

@@ -73,6 +73,13 @@ public:
 	[[nodiscard]] const TArray<FUserMacro>& GetUserMacros() const;
 
 	/**
+	 * Gets all the user macros the subsystem manages via their handles
+	 * @return Handles to all existing user macros
+	 */
+	UFUNCTION(BlueprintPure, DisplayName="Get User Macros", Category="Macro Subsystem")
+	TArray<FUserMacroHandle> GetUserMacros_BP();
+
+	/**
 	 * Creates the macro editor window via Slate
 	 */
 	void CreateMacroEditorWindow(

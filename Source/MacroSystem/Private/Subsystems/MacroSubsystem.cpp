@@ -140,6 +140,16 @@ const TArray<FUserMacro>& UMacroSubsystem::GetUserMacros() const
 	return UserMacros;
 }
 
+TArray<FUserMacroHandle> UMacroSubsystem::GetUserMacros_BP()
+{
+	TArray<FUserMacroHandle> Result;
+	for (int i {0}; i < UserMacros.Num(); i++)
+	{
+		Result.Emplace(i, this);
+	}
+	return Result;
+}
+
 void UMacroSubsystem::CreateMacroEditorWindow(
 	const FText& Title,
 	const FVector2D& Size,
