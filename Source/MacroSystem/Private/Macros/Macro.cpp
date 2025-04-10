@@ -1,6 +1,8 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Macros/Macro.h"
+
+#include "MacroSettings.h"
 #include "FunctionLibraries/MacroDebugStatics.h"
 #include "Kismet/GameplayStatics.h"
 #include "Subsystems/MacroSubsystem.h"
@@ -91,9 +93,20 @@ bool UMacro::ExecuteNextAction()
 
 void UMacro::FinishExecute(const bool bSuccess)
 {
-	bRunning = false;
-	UMacroDebugStatics::PrintSimple("Finished macro: " + GetMacroName().ToString());
-	OnMacroFinished.Broadcast(this, bSuccess);
+	auto FinishLambda = [this, bSuccess]
+	{
+		bRunning = false;
+		UMacroDebugStatics::PrintSimple("Finished macro: " + GetMacroName().ToString());
+		OnMacroFinished.Broadcast(this, bSuccess);
+	};
+
+	if (!UMacroSettings::GetDelayActionExecution())
+	{
+		FinishLambda();
+		return;
+	}
+
+	GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateLambda(FinishLambda));
 }
 
 ACharacter* UMacro::GetPlayerCharacter() const

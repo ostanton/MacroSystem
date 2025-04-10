@@ -36,6 +36,12 @@ public:
 	UFUNCTION(BlueprintPure, DisplayName="Get Macro Categories", Category="Macro Settings")
 	static const TMap<FName, FMacroCategory>& GetCategories();
 
+	UFUNCTION(BlueprintPure, Category="Macro Settings")
+	static bool GetDelayActionExecution();
+
+	UFUNCTION(BlueprintPure, Category="Macro Settings")
+	static bool GetDelayLoopRerun();
+
 	UFUNCTION(BlueprintPure, Category="Macro Settings|Theme")
 	static FColor GetNormalColour();
 
@@ -48,6 +54,14 @@ public:
 private:
 	UPROPERTY(Config, EditAnywhere, Category="Macro Settings")
 	TMap<FName, FMacroCategory> Categories;
+
+	/** Whether macro actions delay a tick before finishing */
+	UPROPERTY(Config, EditAnywhere, Category="Macro Settings")
+	bool bDelayActionExecution {false};
+
+	/** Whether to delay a tick before rerunning the actions in a loop */
+	UPROPERTY(Config, EditAnywhere, Category="Macro Settings")
+	bool bDelayLoopRerun {true};
 
 	UPROPERTY(Config, EditAnywhere, Category="Theme")
 	FColor NormalColour {255, 255, 255, 0};

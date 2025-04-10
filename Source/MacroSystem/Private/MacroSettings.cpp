@@ -12,6 +12,16 @@ const TMap<FName, FMacroCategory>& UMacroSettings::GetCategories()
 	return Get()->Categories;
 }
 
+bool UMacroSettings::GetDelayActionExecution()
+{
+	return Get()->bDelayActionExecution;
+}
+
+bool UMacroSettings::GetDelayLoopRerun()
+{
+	return Get()->bDelayLoopRerun;
+}
+
 FColor UMacroSettings::GetNormalColour()
 {
 	return Get()->NormalColour;

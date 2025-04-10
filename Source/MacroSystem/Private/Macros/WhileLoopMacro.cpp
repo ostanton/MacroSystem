@@ -2,6 +2,8 @@
 
 #include "Macros/WhileLoopMacro.h"
 
+#include "MacroSettings.h"
+
 UWhileLoopMacro::UWhileLoopMacro()
 {
 	Name = FText::FromString("While");
@@ -14,5 +16,14 @@ UWhileLoopMacro::UWhileLoopMacro()
 
 void UWhileLoopMacro::MacroFinished_Implementation()
 {
-	ExecuteConditionAction();
+	if (!UMacroSettings::GetDelayLoopRerun())
+	{
+		ExecuteConditionAction();
+		return;
+	}
+
+	GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateLambda([this]
+	{
+		ExecuteConditionAction();
+	}));
 }

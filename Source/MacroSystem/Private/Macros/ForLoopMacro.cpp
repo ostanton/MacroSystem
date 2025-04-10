@@ -2,6 +2,7 @@
 
 #include "Macros/ForLoopMacro.h"
 #include "LoopIteration.h"
+#include "MacroSettings.h"
 #include "FunctionLibraries/MacroDebugStatics.h"
 #include "UI/Slate/Macros/SLoopIterationMacro.h"
 
@@ -28,21 +29,32 @@ void UForLoopMacro::MacroFinished_Implementation()
 	UMacroDebugStatics::PrintSimple(
 		"Finished for loop iteration: " + FString::FromInt(CurrentIteration)
 	);
-	
-	CurrentIteration++;
-	
-	if (!CanIterate())
+
+	auto FinishLambda = [this]
 	{
-		UMacroDebugStatics::PrintSimple(
-			"Finished for loop"
-		);
-		CurrentIteration = 0;
-		Super::MacroFinished_Implementation();
+		CurrentIteration++;
+	
+		if (!CanIterate())
+		{
+			UMacroDebugStatics::PrintSimple(
+				"Finished for loop"
+			);
+			CurrentIteration = 0;
+			Super::MacroFinished_Implementation();
+			return;
+		}
+	
+		NextActionIndex = 0;
+		ExecuteActions();
+	};
+	
+	if (!UMacroSettings::GetDelayLoopRerun())
+	{
+		FinishLambda();
 		return;
 	}
-	
-	NextActionIndex = 0;
-	ExecuteActions();
+
+	GetWorld()->GetTimerManager().SetTimerForNextTick(FTimerDelegate::CreateLambda(FinishLambda));
 }
 
 TSharedRef<SWidget> UForLoopMacro::CreateMacroWidget(FMacroAction& ActionInfo)
