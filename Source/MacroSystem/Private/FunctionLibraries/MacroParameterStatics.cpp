@@ -2,6 +2,11 @@
 
 #include "FunctionLibraries/MacroParameterStatics.h"
 
+bool UMacroParameterStatics::AsBool(const FMacroParameter& Parameter)
+{
+	return Parameter.As<bool>();
+}
+
 int UMacroParameterStatics::AsInt(const FMacroParameter& Parameter)
 {
 	return Parameter.As<int>();

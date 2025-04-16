@@ -41,6 +41,11 @@ bool UMacroSubsystem::RemoveUserMacro(const int Index)
 	return true;
 }
 
+void UMacroSubsystem::ClearUserMacros()
+{
+	UserMacros.Empty();
+}
+
 void UMacroSubsystem::ExecuteUserMacro(const int Index)
 {
 	if (!UserMacros.IsValidIndex(Index))
@@ -190,8 +195,8 @@ void UMacroSubsystem::CreateMacroEditorWindow(
 void UMacroSubsystem::UserMacroFinished(const UMacro* Macro, bool bSuccess)
 {
 	NativeOnUserMacroFinished.Broadcast();
-	ActiveUserMacros.Remove(Macro);
 	UMacroDebugStatics::PrintSimple(
 		"Finished executing user macro: " + static_cast<const FUserMacro*>(Macro->GetMacroInfo())->Name.ToString()
 	);
+	ActiveUserMacros.Remove(Macro);
 }

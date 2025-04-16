@@ -43,6 +43,9 @@ public:
 	bool RemoveUserMacro(int Index);
 
 	UFUNCTION(BlueprintCallable, Category="Macro Subsystem")
+	void ClearUserMacros();
+
+	UFUNCTION(BlueprintCallable, Category="Macro Subsystem")
 	void ExecuteUserMacro(int Index);
 
 	UFUNCTION(BlueprintCallable, Category="Macro Subsystem")

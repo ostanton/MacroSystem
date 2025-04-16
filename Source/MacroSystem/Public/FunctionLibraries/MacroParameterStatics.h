@@ -17,6 +17,9 @@ class MACROSYSTEM_API UMacroParameterStatics : public UBlueprintFunctionLibrary
 
 public:
 	UFUNCTION(BlueprintPure, Category="Macro Parameter Statics")
+	static bool AsBool(const FMacroParameter& Parameter);
+	
+	UFUNCTION(BlueprintPure, Category="Macro Parameter Statics")
 	static int AsInt(const FMacroParameter& Parameter);
 
 	UFUNCTION(BlueprintPure, Category="Macro Parameter Statics")

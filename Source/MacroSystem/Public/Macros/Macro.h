@@ -75,6 +75,21 @@ public:
 	UFUNCTION(BlueprintPure, Category="Macro")
 	UMacroSubsystem* GetMacroSubsystem() const;
 
+	/**
+	 * Blueprint-accessible world getter, as I can't work out how to stop WorldContext pins showing
+	 * whilst still allowing nodes that require the world (like Delay, etc.). It's a hack
+	 * @return The world
+	 */
+	UFUNCTION(BlueprintPure, DisplayName="Get World", Category="Macro")
+	UObject* BP_GetWorld() const;
+
+	/**
+	 * Gets the world's delta seconds, same idea as the custom GetWorld function
+	 * @return Delta time from world
+	 */
+	UFUNCTION(BlueprintPure, Category="Macro")
+	float GetWorldDeltaSeconds() const;
+
 	/* Getters for C++ */
 
 	[[nodiscard]] FMacroAction* GetMacroInfo() {return Info;}

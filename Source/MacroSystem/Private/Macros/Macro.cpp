@@ -195,3 +195,13 @@ UMacroSubsystem* UMacro::GetMacroSubsystem() const
 {
 	return GetTypedOuter<UMacroSubsystem>();
 }
+
+UObject* UMacro::BP_GetWorld() const
+{
+	return GetWorld();
+}
+
+float UMacro::GetWorldDeltaSeconds() const
+{
+	return GetWorld()->GetDeltaSeconds();
+}
