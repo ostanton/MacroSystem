@@ -140,6 +140,16 @@ bool UMacroSubsystem::IsAnyUserMacroRunning() const
 	return !ActiveUserMacros.IsEmpty();
 }
 
+void UMacroSubsystem::StopAllActiveMacros()
+{
+	for (auto Macro : ActiveUserMacros)
+	{
+		NativeOnUserMacroFinished.Broadcast();
+	}
+
+	ActiveUserMacros.Empty();
+}
+
 const TArray<FUserMacro>& UMacroSubsystem::GetUserMacros() const
 {
 	return UserMacros;

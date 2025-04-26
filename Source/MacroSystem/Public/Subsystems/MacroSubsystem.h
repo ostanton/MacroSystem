@@ -74,6 +74,9 @@ public:
 	UFUNCTION(BlueprintPure, Category="Macro Subsystem")
 	bool IsAnyUserMacroRunning() const;
 
+	UFUNCTION(BlueprintCallable, Category="Macro Subsystem")
+	void StopAllActiveMacros();
+
 	[[nodiscard]] const TArray<FUserMacro>& GetUserMacros() const;
 
 	/**

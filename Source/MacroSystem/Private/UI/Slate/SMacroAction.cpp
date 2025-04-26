@@ -17,7 +17,7 @@ void SMacroAction::Construct(const FArguments& InArgs)
 
 	SetToolTipText(MacroAction->GetDefaultMacro()->GetMacroDescription());
 
-	IconBrush.SetResourceObject(MacroAction->GetDefaultMacro()->GetIconLoaded());
+	IconBrush.SetResourceObject(MacroAction->GetDefaultMacro()->GetIcon());
 
 	BackgroundBrush.DrawAs = ESlateBrushDrawType::Image;
 	BackgroundBrush.ImageType = ESlateBrushImageType::NoImage;

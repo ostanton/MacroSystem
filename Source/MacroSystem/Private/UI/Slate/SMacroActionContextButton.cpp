@@ -9,7 +9,7 @@ void SMacroActionContextButton::Construct(const FArguments& InArgs)
 	Macro = InArgs._Macro;
 	checkf(Macro, TEXT("SMacroActionContextButton::Construct - Invalid macro pointer!"));
 	OnClicked = InArgs._OnClicked;
-	IconBrush.SetResourceObject(Macro->GetIconLoaded());
+	IconBrush.SetResourceObject(Macro->GetIcon());
 	IconBrush.SetImageSize(FVector2D {16, 16});
 	
 	ChildSlot

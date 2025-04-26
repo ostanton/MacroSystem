@@ -97,7 +97,7 @@ public:
 	[[nodiscard]] const FText& GetMacroName() const {return Name;}
 	[[nodiscard]] const FText& GetMacroDescription() const {return Description;}
 	[[nodiscard]] bool HasIcon() const;
-	[[nodiscard]] UTexture2D* GetIconLoaded() const {return Icon.LoadSynchronous();}
+	[[nodiscard]] UTexture2D* GetIcon() const {return Icon;}
 	[[nodiscard]] const TArray<FMacroParameter>& GetDefaultParameters() const {return DefaultParameters;}
 	[[nodiscard]] bool GetAllowsActions() const {return bAllowsActions;}
 
@@ -186,9 +186,9 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Macro", meta=(AllowPrivateAccess))
 	FText Description;
 
-	/** Soft pointer to a texture to use as the icon for this macro in the macro editor */
+	/** Hard (so it's caught by the GC) pointer to a texture to use as the icon for this macro in the macro editor */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Macro", meta=(AllowPrivateAccess))
-	TSoftObjectPtr<UTexture2D> Icon;
+	TObjectPtr<UTexture2D> Icon;
 
 	/** Defines the parameters this macro takes as inputs, their types, and their default values */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Macro", meta=(AllowPrivateAccess))

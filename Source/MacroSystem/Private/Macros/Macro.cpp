@@ -1,7 +1,6 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Macros/Macro.h"
-
 #include "MacroSettings.h"
 #include "FunctionLibraries/MacroDebugStatics.h"
 #include "Kismet/GameplayStatics.h"
@@ -9,7 +8,7 @@
 
 bool UMacro::HasIcon() const
 {
-	return Icon.IsValid();
+	return Icon != nullptr;
 }
 
 void UMacro::ExecuteCustomParameters_Implementation(const TArray<FMacroParameter>& Parameters)
